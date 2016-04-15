@@ -7,9 +7,7 @@ Lua scripting language, compatible with Lua 5.3.
 # Features
 
  - Constructor and destructor (`construct` and `destruct` methods)
- - Inheritance (`Class(BaseClass)`); note: there's no *super* keyword or
-   property, because each sub class should have its own value. Use the name of
-   the base class instead.
+ - Inheritance (`Class(BaseClass)`, `SubClass.super`)
  - Getters and setters (`getXxx` and `setXxx` methods and use `xxx` as the
    virtual properties)
 
@@ -66,7 +64,8 @@ print(instance.foobar) -- uses getFoobar()
 local SubClass = Class(BaseClass)
 
 function SubClass:construct()
-  BaseClass.construct(self, 'lorem ipsum dolor')
+  SubClass.super.construct(self, 'lorem ipsum dolor')
+  -- or: BaseClass.construct(self, 'lorem ipsum dolor')
 end
 ~~~
 
