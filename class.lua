@@ -23,7 +23,26 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 -- Compatible with Lua 5.3.
 
-Class = {}
+Class =
+{
+  instanceOf = function(self, class)
+    if type(self) == 'table' then
+      local myClass = getmetatable(self).__class
+      
+      while myClass ~= class do
+        if myClass.super then
+          myClass = myClass.super
+        else
+          return false
+        end
+      end
+      
+      return true
+    else
+      return false
+    end
+  end
+}
 local mt = {}
 
 function mt.__call(func, base)
@@ -67,7 +86,8 @@ function mt.__call(func, base)
         -- class[prop] = value
         rawset(self, prop, value)
       end
-    end
+    end,
+    __class = class
   }
   mt = class.metatable -- shorthand
   
@@ -101,6 +121,7 @@ function mt.__call(func, base)
   setmetatable(class, { __call = construct, __index = base })
   
   class.super = base
+  class.instanceOf = Class.instanceOf
   
   -- if base then
   --   setmetatable(class, { __index = base })

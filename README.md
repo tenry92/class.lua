@@ -10,6 +10,7 @@ Lua scripting language, compatible with Lua 5.3.
  - Inheritance (`Class(BaseClass)`, `SubClass.super`)
  - Getters and setters (`getXxx` and `setXxx` methods and use `xxx` as the
    virtual properties)
+ - `instanceOf` function
 
 
 # Usage
@@ -59,6 +60,8 @@ instance:sayIt() -- call regular method
 instance.text = 'modified' -- modify regular property
 instance.foobar = 'setting' -- uses setFoobar()
 print(instance.foobar) -- uses getFoobar()
+print(Class.instanceOf(instance, BaseClass)) -- true
+print(instance:instanceOf(BaseClass)) -- true
 
 
 local SubClass = Class(BaseClass)
